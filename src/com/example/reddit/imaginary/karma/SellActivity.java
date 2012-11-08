@@ -23,6 +23,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ListView;
 
@@ -96,23 +98,15 @@ public class SellActivity extends Activity {
 				
 				lv.setAdapter(new ArrayAdapter<BRep>(SellActivity.this,
 						android.R.layout.simple_list_item_1, listArray.toArray(new BRep[0])));
-
-				lv.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-					@Override
-					public void onItemSelected(AdapterView<?> arg0, View arg1,
-							int position, long arg3) {
-						BRep b = (BRep) arg0.getItemAtPosition(position);
-						MUtil.sell(b);
-					}
-
-					@Override
-					public void onNothingSelected(AdapterView<?> arg0) {
-
-					}
-
-				});
-
+				OnItemClickListener onClickListener = new OnItemClickListener() {
+    				public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+    						long arg3) {
+    					BRep b = (BRep) arg0.getItemAtPosition(position);
+    					MUtil.sell(b);
+    						}
+    	        };
+    	        lv.setOnItemClickListener(onClickListener);
+    		
 			}
 		}.execute("");
 	}

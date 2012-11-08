@@ -30,7 +30,7 @@ import android.widget.Button;
  * 
  */
 public class MUtil {
-	static String rid;
+	static String rid = "terra";
 	static String cookie;
 	/**
 	 * a login https://github.com/reddit/reddit/wiki/API%3A-login

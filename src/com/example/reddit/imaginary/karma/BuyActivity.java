@@ -1,32 +1,23 @@
 package com.example.reddit.imaginary.karma;
 
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-
-import com.rik.shared.BRep;
-import com.rik.shared.CRPC;
-
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.rik.shared.BRep;
+import com.rik.shared.CRPC;
 
 /**
  * b http://www.reddit.com/reddits/ pull into json grab titles
@@ -40,11 +31,7 @@ import android.widget.Toast;
  */
 public class BuyActivity extends Activity {
 
-
-
 	protected String redditChoice = "all";
-
-
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +45,7 @@ public class BuyActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
+
 	private void refresh() {
 
 		new AsyncTask<String, Void, String>() {
@@ -99,50 +87,41 @@ public class BuyActivity extends Activity {
 				lv.setAdapter(new ArrayAdapter<BRep>(BuyActivity.this,
 						android.R.layout.simple_list_item_1, listArray));
 
-				lv.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-					@Override
-					public void onItemSelected(AdapterView<?> arg0, View arg1,
-							int position, long arg3) {
-						BRep b = (BRep) arg0.getItemAtPosition(position);
-						String text=MUtil.buy(b);
-						Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
-					}
-
-					@Override
-					public void onNothingSelected(AdapterView<?> arg0) {
-
-					}
-
-				});
-
+				
+				
+				OnItemClickListener onClickListener = new OnItemClickListener() {
+    				public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+    						long arg3) {
+    					BRep b = (BRep) arg0.getItemAtPosition(position);
+    					String text=MUtil.buy(b);
+    					Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+    				}
+    	        };
+    	        lv.setOnItemClickListener(onClickListener);
+    		
 			}
 		}.execute("");
 	}
 
-	
-
-	public void chooseReddit(View view){
+	public void chooseReddit(View view) {
 		LayoutInflater factory = LayoutInflater.from(this);
 		final View textEntryView = factory.inflate(
 				R.layout.alert_dialog_textentry, null);
 
-		new AlertDialog.Builder(
-				BuyActivity.this)
+		new AlertDialog.Builder(BuyActivity.this)
 				.setTitle("Buy Custom")
 				.setView(textEntryView)
-				.setPositiveButton("ok",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-									CharSequence text = ((TextView) textEntryView
-											.findViewById(R.id.alert_text_add_tag))
-											.getText();
-									Button b=(Button) BuyActivity.this.findViewById(R.id.chooseReddit);
-									b.setText("/r/"+text);
-									redditChoice = (String) text;
-							}
-						})
+				.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						CharSequence text = ((TextView) textEntryView
+								.findViewById(R.id.alert_text_add_tag))
+								.getText();
+						Button b = (Button) BuyActivity.this
+								.findViewById(R.id.chooseReddit);
+						b.setText("/r/" + text);
+						redditChoice = (String) text;
+					}
+				})
 				.setNegativeButton("cancel",
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
