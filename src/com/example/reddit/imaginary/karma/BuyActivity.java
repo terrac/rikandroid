@@ -31,7 +31,7 @@ import com.rik.shared.CRPC;
  */
 public class BuyActivity extends Activity {
 
-	protected String redditChoice = "all";
+	protected String redditChoice = "science";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class BuyActivity extends Activity {
 
 			@Override
 			protected String doInBackground(String... params) {
-				listArray = CRPC.getRPC().getToBuyList(redditChoice);
+				listArray = MUtil.getToBuyList(redditChoice);
 				if (listArray == null) {
 					error = true;
 					return null;
@@ -68,9 +68,8 @@ public class BuyActivity extends Activity {
 			@Override
 			protected void onPostExecute(String result) {
 				if (error) {
-					String uri = getIntent().getStringExtra("url");
 					String text = "Cannot currently access "
-							+ uri
+							+ redditChoice
 							+ " Please Check your internet connection or the tag if you have set it";
 					String title = "Error";
 					new AlertDialog.Builder(BuyActivity.this).setTitle(title)

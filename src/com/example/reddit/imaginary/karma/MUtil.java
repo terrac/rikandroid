@@ -73,8 +73,8 @@ public class MUtil {
 	 * When selling the person is removed from that users list and their ability
 	 * to buy goes up by one
 	 */
-	public static void sell(BRep ridSold) {
-		CRPC.getRPC().sell(rid, ridSold);
+	public static String sell(BRep ridSold) {
+		return CRPC.getRPC().sell(rid, ridSold);
 	}
 
 	public static void addBuySell(final Activity activity) {
@@ -101,5 +101,9 @@ public class MUtil {
 
 	public static List<BRep> getSellList() {
 		return Arrays.asList(CRPC.getRPC().getBoughtList(rid));
+	}
+
+	public static BRep[] getToBuyList(String redditChoice) {
+		return CRPC.getRPC().getToBuyList(redditChoice,rid);
 	}
 }

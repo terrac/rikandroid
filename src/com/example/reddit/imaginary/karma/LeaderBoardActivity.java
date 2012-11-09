@@ -3,8 +3,8 @@ package com.example.reddit.imaginary.karma;
 import java.util.List;
 
 
-import com.rik.shared.BRep;
 import com.rik.shared.CRPC;
+import com.rik.shared.RURep;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 /**
@@ -29,6 +30,7 @@ public class LeaderBoardActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_leaderboard);
         MUtil.addBuySell(this);
+        populateList("science");
 
 	}
 
@@ -46,7 +48,7 @@ public class LeaderBoardActivity extends Activity {
 	 * 
 	 * @param redditname
 	 */
-	public void populateList(final String rid,final String redditname) {
+	public void populateList(final String redditname) {
 		new AsyncTask() {
 
 			@Override
@@ -56,15 +58,15 @@ public class LeaderBoardActivity extends Activity {
 			}
 			@Override
 			protected void onPostExecute(Object result) {
-				List<BRep> list = (List<BRep>) result;
+				RURep[] list = (RURep[]) result;
 				ListView listView = (ListView) findViewById(R.id.listView1);
-				listView.setAdapter(new ArrayAdapter<BRep>(LeaderBoardActivity.this,  android.R.layout.simple_list_item_1, list.toArray(new BRep[0])));
+				listView.setAdapter(new ArrayAdapter<RURep>(LeaderBoardActivity.this,  android.R.layout.simple_list_item_1, list));
     			OnItemClickListener onClickListener = new OnItemClickListener() {
     				public void onItemClick(AdapterView<?> arg0, View arg1, int position,
     						long arg3) {
     					
     					//o= arg0.getItemAtPosition(position);
-    	            	
+    	            	Toast.makeText(getApplicationContext(), "blah", Toast.LENGTH_LONG);
     				}
     	        };
     	        listView.setOnItemClickListener(onClickListener);

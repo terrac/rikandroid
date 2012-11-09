@@ -102,7 +102,8 @@ public class SellActivity extends Activity {
     				public void onItemClick(AdapterView<?> arg0, View arg1, int position,
     						long arg3) {
     					BRep b = (BRep) arg0.getItemAtPosition(position);
-    					MUtil.sell(b);
+    					String text=MUtil.sell(b);
+    					Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
     						}
     	        };
     	        lv.setOnItemClickListener(onClickListener);

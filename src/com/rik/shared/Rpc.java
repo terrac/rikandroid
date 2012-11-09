@@ -4,7 +4,7 @@ import java.util.List;
 
 
 public interface Rpc {
-	public BRep[] getLeaderBoard(String redditname);
+	public RURep[] getLeaderBoard(String redditname);
 	public String buy(String rid,BRep ridBought);
 	public String sell(String rid,BRep ridSold);
 	
@@ -14,7 +14,7 @@ public interface Rpc {
 	 * @param rid
 	 * @return
 	 */
-	public BRep[] getToBuyList(String redditname);
+	public BRep[] getToBuyList(String redditname,String rid);
 	public BRep[] getBoughtList(String rid);
 	
 }
