@@ -16,5 +16,6 @@ public interface Rpc {
 	 */
 	public BRep[] getToBuyList(String redditname,String rid);
 	public BRep[] getBoughtList(String rid);
-	
+	public String[] getMySubreddits(String rid, String modhash);
+
 }

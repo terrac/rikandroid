@@ -8,6 +8,7 @@ import com.rik.shared.RURep;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
@@ -29,7 +30,9 @@ public class LeaderBoardActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_leaderboard);
-        MUtil.addBuySell(this);
+//		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//		StrictMode.setThreadPolicy(policy);
+        MUtil.addMain(this,"leaderboard");
         populateList("science");
 
 	}

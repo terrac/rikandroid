@@ -114,35 +114,5 @@ public class SellActivity extends Activity {
 
 	
 
-	public void chooseReddit(View view){
-		LayoutInflater factory = LayoutInflater.from(this);
-		final View textEntryView = factory.inflate(
-				R.layout.alert_dialog_textentry, null);
-
-		new AlertDialog.Builder(
-				SellActivity.this)
-				.setTitle("Buy Custom")
-				.setView(textEntryView)
-				.setPositiveButton("ok",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-									CharSequence text = ((TextView) textEntryView
-											.findViewById(R.id.alert_text_add_tag))
-											.getText();
-									Button b=(Button) SellActivity.this.findViewById(R.id.chooseReddit);
-									b.setText("/r/"+text);
-									redditChoice = (String) text;
-							}
-						})
-				.setNegativeButton("cancel",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-
-								/* User clicked cancel so do some stuff */
-							}
-						}).show();
-	}
 
 }

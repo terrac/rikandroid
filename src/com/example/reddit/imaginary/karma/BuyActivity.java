@@ -29,15 +29,18 @@ import com.rik.shared.CRPC;
  * @author terra
  * 
  */
-public class BuyActivity extends Activity {
+public class BuyActivity extends Activity implements AfterLogin {
 
-	protected String redditChoice = "science";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_buy);
-		refresh();
+		setContentView(R.layout.activity_leaderboard);
+		MUtil.addMain(this,"buy");
+		if(!MUtil.showLogin(this)){
+
+			refresh();	
+		}
 	}
 
 	@Override
@@ -46,7 +49,7 @@ public class BuyActivity extends Activity {
 		return true;
 	}
 
-	private void refresh() {
+	public void refresh() {
 
 		new AsyncTask<String, Void, String>() {
 			boolean error;
@@ -57,7 +60,7 @@ public class BuyActivity extends Activity {
 
 			@Override
 			protected String doInBackground(String... params) {
-				listArray = MUtil.getToBuyList(redditChoice);
+				listArray = MUtil.getToBuyList();
 				if (listArray == null) {
 					error = true;
 					return null;
@@ -69,7 +72,7 @@ public class BuyActivity extends Activity {
 			protected void onPostExecute(String result) {
 				if (error) {
 					String text = "Cannot currently access "
-							+ redditChoice
+							+ MUtil.subreddit
 							+ " Please Check your internet connection or the tag if you have set it";
 					String title = "Error";
 					new AlertDialog.Builder(BuyActivity.this).setTitle(title)
@@ -100,35 +103,6 @@ public class BuyActivity extends Activity {
     		
 			}
 		}.execute("");
-	}
-
-	public void chooseReddit(View view) {
-		LayoutInflater factory = LayoutInflater.from(this);
-		final View textEntryView = factory.inflate(
-				R.layout.alert_dialog_textentry, null);
-
-		new AlertDialog.Builder(BuyActivity.this)
-				.setTitle("Buy Custom")
-				.setView(textEntryView)
-				.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						CharSequence text = ((TextView) textEntryView
-								.findViewById(R.id.alert_text_add_tag))
-								.getText();
-						Button b = (Button) BuyActivity.this
-								.findViewById(R.id.chooseReddit);
-						b.setText("/r/" + text);
-						redditChoice = (String) text;
-					}
-				})
-				.setNegativeButton("cancel",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-
-								/* User clicked cancel so do some stuff */
-							}
-						}).show();
 	}
 
 }
