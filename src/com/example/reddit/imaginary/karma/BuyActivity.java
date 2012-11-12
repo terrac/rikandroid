@@ -37,10 +37,7 @@ public class BuyActivity extends Activity implements AfterLogin {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_leaderboard);
 		MUtil.addMain(this,"buy");
-		if(!MUtil.showLogin(this)){
-
-			refresh();	
-		}
+		MUtil.showLogin(this,this);
 	}
 
 	@Override
@@ -60,7 +57,7 @@ public class BuyActivity extends Activity implements AfterLogin {
 
 			@Override
 			protected String doInBackground(String... params) {
-				listArray = MUtil.getToBuyList();
+				listArray = MUtil.getToBuyList(BuyActivity.this);
 				if (listArray == null) {
 					error = true;
 					return null;
@@ -72,7 +69,7 @@ public class BuyActivity extends Activity implements AfterLogin {
 			protected void onPostExecute(String result) {
 				if (error) {
 					String text = "Cannot currently access "
-							+ MUtil.subreddit
+							+ MUtil.getSubReddit(BuyActivity.this)
 							+ " Please Check your internet connection or the tag if you have set it";
 					String title = "Error";
 					new AlertDialog.Builder(BuyActivity.this).setTitle(title)

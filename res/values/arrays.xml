@@ -1,0 +1,9 @@
+<resources>
+
+
+    <string-array name="defaultReddits">
+        <item>technology</item>
+        <item>science</item>
+    </string-array>
+
+</resources>
