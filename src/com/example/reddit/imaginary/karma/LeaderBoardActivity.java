@@ -32,8 +32,8 @@ public class LeaderBoardActivity extends Activity {
 		setContentView(R.layout.activity_leaderboard);
 //		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 //		StrictMode.setThreadPolicy(policy);
-        MUtil.addMain(this,"leaderboard");
-        populateList("science");
+		MUtil.addMain(this,"leaderboard");
+        populateList(MUtil.getSubReddit(this));
 
 	}
 

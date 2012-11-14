@@ -91,9 +91,23 @@ public class BuyActivity extends Activity implements AfterLogin {
 				OnItemClickListener onClickListener = new OnItemClickListener() {
     				public void onItemClick(AdapterView<?> arg0, View arg1, int position,
     						long arg3) {
-    					BRep b = (BRep) arg0.getItemAtPosition(position);
-    					String text=MUtil.buy(b);
-    					Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+    					final BRep b = (BRep) arg0.getItemAtPosition(position);
+    					//arg0.removeViewAt(position);
+    					new AsyncTask<String, Void, String>(){
+    						String text;
+    						@Override
+    						protected String doInBackground(String... params) {
+    							text = MUtil.buy(b);
+    							return null;
+    						}
+    						@Override
+    						protected void onPostExecute(String result) {
+
+    	    					Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+    	    					super.onPostExecute(result);
+    						}
+    						
+    					}.execute("");
     				}
     	        };
     	        lv.setOnItemClickListener(onClickListener);

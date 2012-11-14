@@ -12,6 +12,7 @@ public class CRPC {
 	
 	//static String serverUrl = "http://reddit-imaginary-karma.appspot.com/jsonrpc";
 	static String serverUrl = "http://10.0.2.2:8888/jsonrpc";
+	//static String serverU = "http://192.168.2.101:8888/jsonrpc";
 public static Rpc getRPC() {
 		return getRPC(serverUrl);
 	}

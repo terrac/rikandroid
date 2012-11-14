@@ -18,6 +18,14 @@ public BRep() {
 	public String toString() {
 		return message+" "+score;
 	}
+	
+	public String toHtmlString() {
+		String color = "green";
+		if(score < 0){
+			color = "red";
+		}
+		return message+" <font color="+color+">"+score+"</font>";
+	}
 	@Override
 	public boolean equals(Object obj) {
 		return rid.equals(((BRep)obj).rid);

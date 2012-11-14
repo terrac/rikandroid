@@ -230,7 +230,7 @@ public class MUtil {
 	public static void addMain(final Activity activity, String name) {
 		((TextView) activity.findViewById(R.id.subredditchoice))
 				.setText(getSubReddit(activity));
-		((TextView) activity.findViewById(R.id.subredditchoice)).setText(name);
+		((TextView) activity.findViewById(R.id.activityname)).setText(name);
 		Spinner s = (Spinner) activity.findViewById(R.id.menuSpinner);
 		String[] arr = new String[] { "Choose", "LeaderBoard", "Buy", "Sell",
 				"Choose subreddit" };

@@ -32,15 +32,17 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ListView;
 
-public class ChooseSubRedditActivity extends Activity {
+public class ChooseSubRedditActivity extends Activity implements AfterLogin{
 
 
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_choosesubreddit);
-		refresh();
+		//setContentView(R.layout.activity_choosesubreddit);
+		setContentView(R.layout.activity_leaderboard);
+		MUtil.addMain(this,"sell");
+		MUtil.showLogin(this,this);
 	}
 
 	@Override
@@ -48,7 +50,7 @@ public class ChooseSubRedditActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
-	private void refresh() {
+	public void refresh() {
 
 		new AsyncTask<String, Void, String>() {
 			boolean error;

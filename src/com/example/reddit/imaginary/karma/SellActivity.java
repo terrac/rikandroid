@@ -14,10 +14,13 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -38,10 +41,49 @@ import android.widget.ListView;
  * @author terra
  * 
  */
-public class SellActivity extends Activity {
+public class SellActivity extends Activity implements AfterLogin{
 
 
 
+	private final class getSell implements OnItemClickListener {
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+				long arg3) {
+			final BRep b = (BRep) arg0.getItemAtPosition(position);
+			
+			new AsyncTask<BRep, Void, String>(){
+				String text;
+				@Override
+				protected String doInBackground(BRep... params) {
+					text = MUtil.sell(params[0]);
+					return null;
+				}
+				@Override
+				protected void onPostExecute(String result) {
+
+					Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+					super.onPostExecute(result);
+				}
+				
+			}.execute(b);
+
+				}
+	}
+	
+	private class BRepArrayAdapter extends ArrayAdapter<BRep>  {
+		public BRepArrayAdapter(Context context, int textViewResourceId,
+				List<BRep> objects) {
+			super(context, textViewResourceId, objects);
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			BRep b=getItem(position);
+			TextView tv = new TextView(parent.getContext());
+			tv.setText(Html.fromHtml(b.toHtmlString()));
+			return tv;
+		}
+	}
+	
 	protected String redditChoice;
 
 
@@ -49,8 +91,11 @@ public class SellActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sell);
-		refresh();
+		//setContentView(R.layout.activity_sell);
+		setContentView(R.layout.activity_leaderboard);
+		MUtil.addMain(this,"sell");
+		MUtil.showLogin(this,this);
+	
 	}
 
 	@Override
@@ -58,14 +103,12 @@ public class SellActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
-	private void refresh() {
+	public void refresh() {
 
 		new AsyncTask<String, Void, String>() {
 			boolean error;
 			List<BRep> listArray;
-			protected void onPreExecute() {
 			
-			}
 
 			@Override
 			protected String doInBackground(String... params) {
@@ -96,16 +139,10 @@ public class SellActivity extends Activity {
 
 				
 				
-				lv.setAdapter(new ArrayAdapter<BRep>(SellActivity.this,
-						android.R.layout.simple_list_item_1, listArray.toArray(new BRep[0])));
-				OnItemClickListener onClickListener = new OnItemClickListener() {
-    				public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-    						long arg3) {
-    					BRep b = (BRep) arg0.getItemAtPosition(position);
-    					String text=MUtil.sell(b);
-    					Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
-    						}
-    	        };
+				ArrayAdapter<BRep> arrayAdapter = new BRepArrayAdapter(SellActivity.this,
+						android.R.layout.simple_list_item_1, listArray);
+				lv.setAdapter(arrayAdapter);
+				OnItemClickListener onClickListener = new getSell();
     	        lv.setOnItemClickListener(onClickListener);
     		
 			}
