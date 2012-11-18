@@ -1,20 +1,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent" 
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    >
+
+    <include
+        android:id="@+id/menu"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_main" />
 
     <AutoCompleteTextView
         android:id="@+id/autocomplete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="technology"
-         />
-    
-        <Button
+        android:hint="technology" />
+
+    <Button
         android:id="@+id/chooseReddit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose reddit" 
         android:onClick="chooseReddit"
-        />
+        android:text="Choose reddit" />
+
+    <include
+        android:id="@+id/menu_footer"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_footer" />
+
 </LinearLayout>

@@ -1,24 +1,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical" >
-
-    <Spinner
-        android:id="@+id/menuSpinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Menu" />
 
     <TextView
         android:id="@+id/subredditchoice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/menuSpinner"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         android:ems="10"
         android:text="subredditchoice" />
 
@@ -27,8 +19,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_toRightOf="@+id/subredditchoice"
+        android:layout_alignParentTop="true"
         android:ems="10"
-        android:text="subredditchoice" />
+        android:text="activityName" />
 
 </RelativeLayout>

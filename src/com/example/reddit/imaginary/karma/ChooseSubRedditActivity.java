@@ -18,6 +18,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -39,9 +40,9 @@ public class ChooseSubRedditActivity extends Activity implements AfterLogin{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.activity_choosesubreddit);
-		setContentView(R.layout.activity_leaderboard);
-		MUtil.addMain(this,"sell");
+		setContentView(R.layout.activity_choosesubreddit);
+		//setContentView(R.layout.activity_leaderboard);
+		MUtil.addMain(this,"Choose Subreddit");
 		MUtil.showLogin(this,this);
 	}
 
@@ -92,7 +93,8 @@ public class ChooseSubRedditActivity extends Activity implements AfterLogin{
 	public void chooseReddit(View v){
 		MUtil.setSubReddit( ((AutoCompleteTextView)findViewById(R.id.autocomplete)).getText().toString(),this);
 		
-		finish();
+		Intent i = new Intent(this, LeaderBoardActivity.class);
+		this.startActivity(i);
 	}
 
 }

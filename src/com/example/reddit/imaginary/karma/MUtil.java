@@ -229,10 +229,10 @@ public class MUtil {
 
 	public static void addMain(final Activity activity, String name) {
 		((TextView) activity.findViewById(R.id.subredditchoice))
-				.setText(getSubReddit(activity));
+				.setText("/r/"+getSubReddit(activity));
 		((TextView) activity.findViewById(R.id.activityname)).setText(name);
 		Spinner s = (Spinner) activity.findViewById(R.id.menuSpinner);
-		String[] arr = new String[] { "Choose", "LeaderBoard", "Buy", "Sell",
+		String[] arr = new String[] { "Navigation", "LeaderBoard", "Buy", "Sell",
 				"Choose subreddit" };
 		s.setAdapter(new ArrayAdapter<String>(activity,
 				android.R.layout.simple_list_item_1, arr));
@@ -277,7 +277,7 @@ public class MUtil {
 	}
 
 	public static List<BRep> getSellList() {
-		return Arrays.asList(CRPC.getRPC().getBoughtList(rid));
+		return new ArrayList(Arrays.asList(CRPC.getRPC().getBoughtList(rid)));
 	}
 
 	// needs login

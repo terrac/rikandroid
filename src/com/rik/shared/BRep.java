@@ -1,8 +1,9 @@
 package com.rik.shared;
 public class BRep {
-	String rid;
-	String message;
-	int score;
+	public String rid;
+	public String message;
+	public int score;
+	public String htmlString;
 
 public BRep() {
 }
@@ -20,11 +21,19 @@ public BRep() {
 	}
 	
 	public String toHtmlString() {
+		if(htmlString != null){
+			return htmlString;
+		}
+		String value = getColorCoded(score);
+		return message +" "+ value;
+	}
+	public static String getColorCoded(int score) {
 		String color = "green";
 		if(score < 0){
 			color = "red";
 		}
-		return message+" <font color="+color+">"+score+"</font>";
+		String value = "<font color="+color+">"+score+"</font>";
+		return value;
 	}
 	@Override
 	public boolean equals(Object obj) {

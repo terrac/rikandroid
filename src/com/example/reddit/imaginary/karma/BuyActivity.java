@@ -36,7 +36,7 @@ public class BuyActivity extends Activity implements AfterLogin {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_leaderboard);
-		MUtil.addMain(this,"buy");
+		MUtil.addMain(this,"Buy");
 		MUtil.showLogin(this,this);
 	}
 
