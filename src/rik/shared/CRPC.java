@@ -1,4 +1,4 @@
-package com.rik.shared;
+package rik.shared;
 
 
 import java.net.URL;

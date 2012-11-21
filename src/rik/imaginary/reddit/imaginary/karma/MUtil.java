@@ -1,4 +1,4 @@
-package com.example.reddit.imaginary.karma;
+package rik.imaginary.reddit.imaginary.karma;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -15,6 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import rik.shared.BRep;
+import rik.shared.CRPC;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
@@ -22,8 +24,6 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 
-import com.rik.shared.BRep;
-import com.rik.shared.CRPC;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -36,6 +36,7 @@ import android.os.AsyncTask;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -65,8 +66,8 @@ public class MUtil {
 	 * api/login/username?api_type=json&user=example&passwd=hunter2
 	 */
 	public static boolean showLogin(final Activity ac,final AfterLogin afterLogin) {
-
-		if (MUtil.modhash != null) {
+		
+		if (MUtil.rid != null&&MUtil.modhash != null) {
 			afterLogin.refresh();
 			return false;
 		}
@@ -101,6 +102,15 @@ public class MUtil {
 		alertDialog(ac, textEntryView, title, okString, onClickListenerOk,
 				negativeString);
 		return true;
+	}
+
+	public static Object getRID(Activity a) {
+		SharedPreferences preferences = PreferenceManager
+				.getDefaultSharedPreferences(a.getApplicationContext());
+		if(rid == null){
+			rid = preferences.getString("rid", null);
+		}
+		return rid;
 	}
 
 	public static void alertDialog(final Activity ac, final View textEntryView,
@@ -310,6 +320,11 @@ public class MUtil {
 			subreddit = sp.getString("subreddit", "technology");
 		}
 		return subreddit;
+	}
+
+	public static void addMenu(Activity activity, Menu menu) {
+		activity.getMenuInflater().inflate(R.menu.activity_main, menu);
+		
 	}
 
 }

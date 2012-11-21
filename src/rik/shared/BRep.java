@@ -1,4 +1,4 @@
-package com.rik.shared;
+package rik.shared;
 public class BRep {
 	public String rid;
 	public String message;

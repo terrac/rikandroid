@@ -1,11 +1,11 @@
-package com.rik.shared;
+package rik.shared;
 
 
 public class RURep implements Comparable<RURep> {
 	public String ruid;
 	public String name;
 	public int score;
-	
+	public String message;
 	public RURep() {
 		// TODO Auto-generated constructor stub
 	}
@@ -17,7 +17,7 @@ public class RURep implements Comparable<RURep> {
 	}
 	@Override
 	public String toString() {
-		return name + " " + score;
+		return name + " " + score+" "+message;
 	}
 
 	@Override

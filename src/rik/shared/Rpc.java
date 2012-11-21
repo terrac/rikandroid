@@ -1,4 +1,4 @@
-package com.rik.shared;
+package rik.shared;
 
 import java.util.List;
 
@@ -18,4 +18,5 @@ public interface Rpc {
 	public BRep[] getBoughtList(String rid);
 	public String[] getMySubreddits(String rid, String modhash);
 	BRep getById(String id);
+	public void setMessage(String rid,String text);
 }

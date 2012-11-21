@@ -1,25 +1,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical" >
 
-    <include 
-	    android:id="@+id/menu"
+    <com.google.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-	    layout="@layout/menu_main"/>
-    
+        ads:adSize="BANNER"
+        ads:adUnitId="a15067a5e3f3f4c"
+        ads:loadAdOnCreate="true"
+        ads:testDevices="TEST_EMULATOR, CF95DC53F383F9A836FD749F3EF439CD, 3A14F4B7A1E04CA2AFED85634D7A26F6" />
+
+    <include
+        android:id="@+id/menu"
+        android:layout_height="wrap_content"
+        layout="@layout/menu_main" />
+
     <ListView
         android:id="@+id/listView1"
         android:layout_width="wrap_content"
-        android:layout_height="401dp" >
-
+        android:layout_height="365dp" >
     </ListView>
 
-	<include
-	    android:id="@+id/menu_footer"
-	    android:layout_height="wrap_content"
-	    layout="@layout/menu_footer" />
-    
+    <include
+        android:id="@+id/menu_footer"
+        android:layout_height="46dp"
+        layout="@layout/menu_footer" />
+
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.reddit.imaginary.karma;
+package rik.imaginary.reddit.imaginary.karma;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,9 +8,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import rik.shared.BRep;
+import rik.shared.CRPC;
 
-import com.rik.shared.BRep;
-import com.rik.shared.CRPC;
+
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,7 +34,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ListView;
 
-public class ChooseSubRedditActivity extends Activity implements AfterLogin{
+public class ChooseSubRedditActivity extends RBaseActivity{
 
 
 
@@ -46,14 +47,14 @@ public class ChooseSubRedditActivity extends Activity implements AfterLogin{
 		MUtil.showLogin(this,this);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_main, menu);
-		return true;
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		getMenuInflater().inflate(R.menu.activity_main, menu);
+//		return true;
+//	}
 	public void refresh() {
 
-		new AsyncTask<String, Void, String>() {
+		aTask=new AsyncTask<String, Void, String>() {
 			boolean error;
 			String[] listArray;
 			protected void onPreExecute() {
@@ -86,7 +87,8 @@ public class ChooseSubRedditActivity extends Activity implements AfterLogin{
 		        textView.setAdapter(adapter);
 
 			}
-		}.execute("");
+		};
+		aTask.execute("");
 	}
 
 	

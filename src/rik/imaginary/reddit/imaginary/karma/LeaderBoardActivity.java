@@ -1,10 +1,11 @@
-package com.example.reddit.imaginary.karma;
+package rik.imaginary.reddit.imaginary.karma;
 
 import java.util.List;
 
+import rik.shared.CRPC;
+import rik.shared.RURep;
 
-import com.rik.shared.CRPC;
-import com.rik.shared.RURep;
+
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.os.StrictMode;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,7 +26,7 @@ import android.widget.AdapterView.OnItemClickListener;
  * @author terra
  * 
  */
-public class LeaderBoardActivity extends Activity {
+public class LeaderBoardActivity extends RBaseActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -37,12 +39,7 @@ public class LeaderBoardActivity extends Activity {
 
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_main, menu);
-		return true;
 
-	}
 
 	/**
 	 * Take the reddit name and pull from the app engine the current list of
@@ -52,7 +49,7 @@ public class LeaderBoardActivity extends Activity {
 	 * @param redditname
 	 */
 	public void populateList(final String redditname) {
-		new AsyncTask() {
+		aTask=new AsyncTask() {
 
 			@Override
 			protected Object doInBackground(Object... params) {
@@ -75,7 +72,8 @@ public class LeaderBoardActivity extends Activity {
     	        listView.setOnItemClickListener(onClickListener);
 
 			}
-		}.execute();
+		};
+		aTask.execute();
 		
 	}
 }

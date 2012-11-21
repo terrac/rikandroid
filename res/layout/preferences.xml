@@ -1,0 +1,21 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <PreferenceCategory android:title="Your message" >
+
+
+    <EditTextPreference
+        android:defaultValue=""
+        android:id="@+id/message"
+        android:dialogTitle="Message on leaderboard"
+        android:inputType="text"
+        android:key="message"
+        android:summary="This message goes after your username on the leaderboard"
+        android:title="Message"
+                
+        />
+    </PreferenceCategory>
+
+    
+</PreferenceScreen>

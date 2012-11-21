@@ -1,4 +1,4 @@
-package com.example.reddit.imaginary.karma;
+package rik.imaginary.reddit.imaginary.karma;
 
 import java.util.List;
 import java.util.Timer;
@@ -8,8 +8,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.rik.shared.BRep;
-import com.rik.shared.CRPC;
+import rik.shared.BRep;
+import rik.shared.CRPC;
+
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -45,7 +46,7 @@ import android.widget.ListView;
  * @author terra
  * 
  */
-public class SellActivity extends Activity implements AfterLogin {
+public class SellActivity extends RBaseActivity {
 
 	private final class getSell implements OnItemClickListener {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position,
@@ -103,15 +104,15 @@ public class SellActivity extends Activity implements AfterLogin {
 
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_main, menu);
-		return true;
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		getMenuInflater().inflate(R.menu.activity_main, menu);
+//		return true;
+//	}
 
 	public void refresh() {
 
-		new AsyncTask<String, Void, String>() {
+		aTask=new AsyncTask<String, Void, String>() {
 			boolean error;
 			List<BRep> listArray;
 
@@ -152,7 +153,8 @@ public class SellActivity extends Activity implements AfterLogin {
 					tt.run();	
 				}
 			}
-		}.execute("");
+		};
+		aTask.execute("");
 	}
 	
 	

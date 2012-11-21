@@ -1,5 +1,7 @@
-package com.example.reddit.imaginary.karma;
+package rik.imaginary.reddit.imaginary.karma;
 
+import rik.shared.BRep;
+import rik.shared.CRPC;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,8 +18,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.rik.shared.BRep;
-import com.rik.shared.CRPC;
 
 /**
  * b http://www.reddit.com/reddits/ pull into json grab titles
@@ -29,7 +29,7 @@ import com.rik.shared.CRPC;
  * @author terra
  * 
  */
-public class BuyActivity extends Activity implements AfterLogin {
+public class BuyActivity extends RBaseActivity {
 
 
 	@Override
@@ -40,15 +40,15 @@ public class BuyActivity extends Activity implements AfterLogin {
 		MUtil.showLogin(this,this);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_main, menu);
-		return true;
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		getMenuInflater().inflate(R.menu.activity_main, menu);
+//		return true;
+//	}
 
 	public void refresh() {
 
-		new AsyncTask<String, Void, String>() {
+		aTask=new AsyncTask<String, Void, String>() {
 			boolean error;
 			BRep[] listArray;
 			protected void onPreExecute() {
@@ -113,7 +113,8 @@ public class BuyActivity extends Activity implements AfterLogin {
     	        lv.setOnItemClickListener(onClickListener);
     		
 			}
-		}.execute("");
+		};
+		aTask.execute("");
 	}
 
 }
