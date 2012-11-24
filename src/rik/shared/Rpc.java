@@ -4,7 +4,8 @@ import java.util.List;
 
 
 public interface Rpc {
-	public RURep[] getLeaderBoard(String redditname);
+	public LeaderBoardRep getLeaderBoard(String redditname);
+	public LeaderBoardRep getDailyLeaderBoard(String redditname);
 	public String buy(String rid,BRep ridBought);
 	public String sell(String rid,BRep ridSold);
 	
@@ -19,4 +20,5 @@ public interface Rpc {
 	public String[] getMySubreddits(String rid, String modhash);
 	BRep getById(String id);
 	public void setMessage(String rid,String text);
+
 }

@@ -4,35 +4,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import rik.shared.RURep;
 
-import rik.shared.BRep;
-import rik.shared.CRPC;
-
-
-
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ListView;
 
 public class ChooseSubRedditActivity extends RBaseActivity{
 
@@ -86,6 +69,21 @@ public class ChooseSubRedditActivity extends RBaseActivity{
 		                findViewById(R.id.autocomplete);
 		        textView.setAdapter(adapter);
 
+
+		        
+		        ListView listView = (ListView) findViewById(R.id.listView1);
+				listView.setAdapter(new ArrayAdapter<String>(ChooseSubRedditActivity.this,  android.R.layout.simple_list_item_1, l));
+    			OnItemClickListener onClickListener = new OnItemClickListener() {
+    				public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+    						long arg3) {
+    					
+    					String o= (String) arg0.getItemAtPosition(position);
+    					chooseReddit(o);
+    	            	Toast.makeText(getApplicationContext(), "blah", Toast.LENGTH_LONG);
+    				}
+    	        };
+    	        listView.setOnItemClickListener(onClickListener);
+
 			}
 		};
 		aTask.execute("");
@@ -93,7 +91,12 @@ public class ChooseSubRedditActivity extends RBaseActivity{
 
 	
 	public void chooseReddit(View v){
-		MUtil.setSubReddit( ((AutoCompleteTextView)findViewById(R.id.autocomplete)).getText().toString(),this);
+		String string = ((AutoCompleteTextView)findViewById(R.id.autocomplete)).getText().toString();
+		chooseReddit(string);
+	}
+
+	public void chooseReddit(String string) {
+		MUtil.setSubReddit( string,this);
 		
 		Intent i = new Intent(this, LeaderBoardActivity.class);
 		this.startActivity(i);

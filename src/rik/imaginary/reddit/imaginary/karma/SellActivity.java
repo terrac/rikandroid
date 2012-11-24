@@ -96,7 +96,7 @@ public class SellActivity extends RBaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// setContentView(R.layout.activity_sell);
-		setContentView(R.layout.activity_leaderboard);
+		setContentView(R.layout.activity_generic);
 		MUtil.addMain(this, "Sell");
 		MUtil.showLogin(this, this);
 		((TextView) findViewById(R.id.subredditchoice))

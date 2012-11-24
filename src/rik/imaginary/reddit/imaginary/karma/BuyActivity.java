@@ -35,7 +35,7 @@ public class BuyActivity extends RBaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_leaderboard);
+		setContentView(R.layout.activity_generic);
 		MUtil.addMain(this,"Buy");
 		MUtil.showLogin(this,this);
 	}
