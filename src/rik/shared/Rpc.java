@@ -20,5 +20,5 @@ public interface Rpc {
 	public String[] getMySubreddits(String rid, String modhash);
 	BRep getById(String id);
 	public void setMessage(String rid,String text);
-
+	public int getScore(String rid,String redditname);
 }

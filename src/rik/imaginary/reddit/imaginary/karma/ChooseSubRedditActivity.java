@@ -35,7 +35,7 @@ public class ChooseSubRedditActivity extends RBaseActivity{
 //		getMenuInflater().inflate(R.menu.activity_main, menu);
 //		return true;
 //	}
-	public void refresh() {
+	{
 
 		aTask=new AsyncTask<String, Void, String>() {
 			boolean error;
@@ -46,14 +46,24 @@ public class ChooseSubRedditActivity extends RBaseActivity{
 
 			@Override
 			protected String doInBackground(String... params) {
-				listArray = MUtil.getMySubReddits();
+				if(!shouldRepeatBackground()){
+					return null;
+				}
+				try {
+					listArray = MUtil.getMySubreddits();
+				} catch (Exception e) {
+					error = true;
+				}
 				
 				return null;
 			}
 
 			@Override
 			protected void onPostExecute(String result) {
-				
+				if(error){
+					MUtil.showNetworkError(ChooseSubRedditActivity.this);
+					error = false;
+				}
 				
 
 		        String[] stringArray = getResources().getStringArray(R.array.defaultReddits);
@@ -79,14 +89,13 @@ public class ChooseSubRedditActivity extends RBaseActivity{
     					
     					String o= (String) arg0.getItemAtPosition(position);
     					chooseReddit(o);
-    	            	Toast.makeText(getApplicationContext(), "blah", Toast.LENGTH_LONG);
+    	            	//Toast.makeText(getApplicationContext(), "blah", Toast.LENGTH_LONG);
     				}
     	        };
     	        listView.setOnItemClickListener(onClickListener);
 
 			}
 		};
-		aTask.execute("");
 	}
 
 	
@@ -100,6 +109,11 @@ public class ChooseSubRedditActivity extends RBaseActivity{
 		
 		Intent i = new Intent(this, LeaderBoardActivity.class);
 		this.startActivity(i);
+	}
+	
+	@Override
+	protected String getTutorialText() {
+		return "Type in a subreddit or choose one";
 	}
 
 }

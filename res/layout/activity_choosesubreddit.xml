@@ -1,7 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
-    
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
@@ -11,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
+        android:focusableInTouchMode="true"
         android:gravity="center_horizontal"
         android:orientation="vertical" >
 
@@ -32,7 +31,10 @@
             android:id="@+id/autocomplete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="technology" />
+            android:focusable="true"
+            android:hint="technology"
+            android:maxLines="1"
+            android:windowSoftInputMode="stateHidden" />
 
         <Button
             android:id="@+id/chooseReddit"
@@ -40,7 +42,6 @@
             android:layout_height="wrap_content"
             android:onClick="chooseReddit"
             android:text="Choose reddit" />
-
         <ListView
             android:id="@+id/listView1"
             android:layout_width="wrap_content"

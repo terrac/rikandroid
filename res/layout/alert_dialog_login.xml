@@ -23,7 +23,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/rusername"
         android:ems="10"
-        android:inputType="textWebPassword"
+        android:inputType="textPassword"
         android:hint="redditpassword"
         android:singleLine="true" />
 

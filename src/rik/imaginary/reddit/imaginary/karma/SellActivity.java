@@ -47,6 +47,58 @@ import android.widget.ListView;
  * 
  */
 public class SellActivity extends RBaseActivity {
+	List<BRep> listArray;
+	
+	@Override
+	protected String getTutorialText() {
+		return "After you have bought some items, sell them here when they have hit their top karma";
+	}
+
+	protected final class SellAsync extends AsyncTask<String, Void, String> {
+		boolean error;
+
+		@Override
+		protected String doInBackground(String... params) {
+			if(!shouldRepeatBackground()){
+				return null;
+			}
+			try {
+				listArray = MUtil.getSellList();
+			} catch (Exception e) {
+			}
+			if (listArray == null) {
+				error = true;
+				return null;
+			}
+			MUtil.getScore();
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			if (error) {
+				MUtil.showNetworkError(SellActivity.this);
+				return;
+			}
+			if(listArray == null||listArray.size() == 0){
+				return;
+			}
+			ListView lv = (ListView) findViewById(R.id.listView1);
+			
+			ArrayAdapter<BRep> arrayAdapter = new BRepArrayAdapter(
+					SellActivity.this, android.R.layout.simple_list_item_1,
+					listArray);
+			lv.setAdapter(arrayAdapter);
+			OnItemClickListener onClickListener = new getSell();
+			lv.setOnItemClickListener(onClickListener);
+			if(lv.getCount() > 0){
+				tt.run();	
+			}
+			MUtil.setScore(SellActivity.this);
+		}
+
+		
+	}
 
 	private final class getSell implements OnItemClickListener {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position,
@@ -60,6 +112,7 @@ public class SellActivity extends RBaseActivity {
 				@Override
 				protected String doInBackground(BRep... params) {
 					text = MUtil.sell(params[0]);
+					MUtil.updateScore();
 					return null;
 				}
 
@@ -68,6 +121,7 @@ public class SellActivity extends RBaseActivity {
 
 					Toast.makeText(getApplicationContext(), text,
 							Toast.LENGTH_LONG).show();
+					MUtil.setScore(SellActivity.this);
 					super.onPostExecute(result);
 				}
 
@@ -109,54 +163,8 @@ public class SellActivity extends RBaseActivity {
 //		getMenuInflater().inflate(R.menu.activity_main, menu);
 //		return true;
 //	}
-
-	public void refresh() {
-
-		aTask=new AsyncTask<String, Void, String>() {
-			boolean error;
-			List<BRep> listArray;
-
-			@Override
-			protected String doInBackground(String... params) {
-				listArray = MUtil.getSellList();
-				if (listArray == null) {
-					error = true;
-					return null;
-				}
-				return null;
-			}
-
-			@Override
-			protected void onPostExecute(String result) {
-				if (error) {
-					String uri = getIntent().getStringExtra("url");
-					String text = "Cannot currently access "
-							+ uri
-							+ " Please Check your internet connection or the tag if you have set it";
-					String title = "Error";
-					new AlertDialog.Builder(SellActivity.this).setTitle(title)
-							.setMessage(text).setNeutralButton("Close", null)
-							.show();
-					//
-					error = false;
-					return;
-				}
-				ListView lv = (ListView) findViewById(R.id.listView1);
-
-				ArrayAdapter<BRep> arrayAdapter = new BRepArrayAdapter(
-						SellActivity.this, android.R.layout.simple_list_item_1,
-						listArray);
-				lv.setAdapter(arrayAdapter);
-				OnItemClickListener onClickListener = new getSell();
-				lv.setOnItemClickListener(onClickListener);
-				if(lv.getCount() > 0){
-					tt.run();	
-				}
-			}
-		};
-		aTask.execute("");
-	}
 	
+
 	
 	Runnable tt = new Runnable()
 	{
@@ -165,7 +173,7 @@ public class SellActivity extends RBaseActivity {
 	     @Override 
 	     public void run() {
 	    	 	AsyncTask<String,Void,BRep> asyncTask = new AsyncTask<String,Void,BRep>() {
-
+	    	 		boolean error;
 					@Override
 					protected BRep doInBackground(String... params) {
 						
@@ -175,11 +183,20 @@ public class SellActivity extends RBaseActivity {
 							return null;
 						}
 			    	 	String rid = ((BRep)lv.getAdapter().getItem(count)).rid;
-						BRep byId = CRPC.getRPC().getById(rid);
+						BRep byId = null;
+						try {
+							byId = CRPC.getRPC().getById(rid);
+						} catch (Exception e) {
+							error = true;
+						}
 						
 						return byId;
 					}
 					protected void onPostExecute(BRep result) {
+						if(error){
+							MUtil.showNetworkError(SellActivity.this);
+							error = false;
+						}
 						ListView lv = (ListView) findViewById(R.id.listView1);
 						
 						ArrayAdapter<BRep> aa=(ArrayAdapter<BRep>) lv.getAdapter();
@@ -197,7 +214,7 @@ public class SellActivity extends RBaseActivity {
 						//aa.getItem(count).score = item.score;
 						aa.notifyDataSetChanged();
 						
-						lv.postDelayed(tt, 2000);
+						lv.postDelayed(tt, 1000);
 
 					}
 	    	 		
@@ -206,5 +223,7 @@ public class SellActivity extends RBaseActivity {
 
 	     }
 	};
+
+	public AsyncTask getAsync() {return new SellAsync();};
 	
 }

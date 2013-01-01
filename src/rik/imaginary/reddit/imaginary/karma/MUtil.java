@@ -1,52 +1,41 @@
 package rik.imaginary.reddit.imaginary.karma;
 
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import rik.shared.BRep;
 import rik.shared.CRPC;
+import rik.shared.SUtil;
+
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
-
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.MutableContextWrapper;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Holds the method to bu
@@ -56,9 +45,10 @@ import android.widget.TextView;
  */
 public class MUtil {
 	static String rid;
-	// static String cookie;
+	public static String cookie;
 	static String modhash;
 	private static String subreddit = "technology";
+	private static Integer score;
 
 	/**
 	 * a login https://github.com/reddit/reddit/wiki/API%3A-login
@@ -132,11 +122,10 @@ public class MUtil {
 						}).show();
 	}
 
+
+
 	public static void login(String username, String password, final Activity ac, final AfterLogin afterLogin) {
-		if ("".equals(username)) {
-			username = "terrdc";
-			password = "belgar";
-		}
+		
 		new AsyncTask<String, Void, String>() {
 			boolean error = false;
 
@@ -172,7 +161,7 @@ public class MUtil {
 					JsonElement je = jp.parse(reader);
 					JsonObject jo = je.getAsJsonObject().get("json")
 							.getAsJsonObject().get("data").getAsJsonObject();
-					// cookie = jo.get("cookie").getAsString();
+					cookie = jo.get("cookie").getAsString();
 					modhash = jo.get("modhash").getAsString();
 					rid = username;
 					SharedPreferences sp = PreferenceManager
@@ -254,23 +243,32 @@ public class MUtil {
 				// TODO Auto-generated method stub
 				if (position == 1) {
 					Intent i = new Intent(activity, LeaderBoardActivity.class);
+					i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+					
 					activity.startActivity(i);
 				}
 
 				if (position == 2) {
 					Intent i = new Intent(activity, BuyActivity.class);
+					i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+					
 					activity.startActivity(i);
 
 				}
 				if (position == 3) {
 					Intent i = new Intent(activity, SellActivity.class);
+					i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+					
 					activity.startActivity(i);
 
 				}
 
 				if (position == 4) {
 					Intent i = new Intent(activity,
+					
 							ChooseSubRedditActivity.class);
+					i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+					
 					activity.startActivity(i);
 
 				}
@@ -296,12 +294,6 @@ public class MUtil {
 		return CRPC.getRPC().getToBuyList(getSubReddit(ac), rid);
 	}
 
-	public static String[] getMySubReddits() {
-		if (modhash == null) {
-			return null;
-		}
-		return CRPC.getRPC().getMySubreddits(rid, modhash);
-	}
 
 	public static void setSubReddit(String string, Activity ac) {
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ac
@@ -327,4 +319,52 @@ public class MUtil {
 		
 	}
 
+	
+	public static String[] getMySubreddits(){
+		if (modhash == null) {
+			return new String[]{};
+		}
+
+		List<String> l = new ArrayList<String>();
+		JsonElement je=SUtil.getJsonElement("http://www.reddit.com/reddits/mine.json?"+rid+"="+modhash);
+		if(je == null||!je.isJsonObject()){
+			return new String[0];
+		}
+		JsonArray jsonArray = SUtil.getArray(je);
+		if (jsonArray != null) { 
+			   int len = jsonArray.size();
+			   for (int i=0;i<len;i++){
+				JsonObject child = SUtil.getChild(jsonArray, i);
+				l.add(child.get("display_name").getAsString());
+				
+			   }
+		}
+		return l.toArray(new String[0]);
+	}
+
+	public static int getScore() {
+		if(score != null){
+			return score;
+		}
+		//return 0;
+		return score=CRPC.getRPC().getScore(rid, subreddit);
+	}
+	
+	public static int updateScore() {
+		return score=CRPC.getRPC().getScore(rid, subreddit);
+	}
+
+	public static void setScore(Activity a) {
+		//new UpdateScore(a).execute("");
+		 ((TextView) a.findViewById(R.id.score)).setText(""+score);
+	
+	}
+
+	public static void showNetworkError(Activity buyAsync) {
+		String text ="Network Error. Please Check your internet connection.  This could also be an issue with reddit";
+		String title = "Error";
+		new AlertDialog.Builder(buyAsync).setTitle(title)
+				.setMessage(text).setNeutralButton("Close", null)
+				.show();
+	}
 }

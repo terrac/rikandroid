@@ -31,7 +31,7 @@ import android.widget.AdapterView.OnItemClickListener;
  * @author terra
  * 
  */
-public class LeaderBoardActivity extends RBaseActivity {
+public class TopLeaderBoardsActivity extends RBaseActivity {
 	LeaderBoardRep leaderBoardRep;
 	LeaderBoardRep dailyLeaderBoardRep;
 	@Override
@@ -56,25 +56,18 @@ public class LeaderBoardActivity extends RBaseActivity {
 	 */
 	public void populateList(final String redditname) {
 		aTask=new AsyncTask() {
-			boolean error = false;
+
 			@Override
 			protected Object doInBackground(Object... params) {
 				
-				try {
-					Rpc rpc = CRPC.getRPC();
-					leaderBoardRep = rpc.getLeaderBoard(redditname);
-					dailyLeaderBoardRep = rpc.getDailyLeaderBoard(redditname);
-				} catch (Exception e) {
-					error = true;
-				}
+				Rpc rpc = CRPC.getRPC();
+				leaderBoardRep = rpc.getLeaderBoard(redditname);
+				dailyLeaderBoardRep = rpc.getDailyLeaderBoard(redditname);
 				return null;
 			}
 			@Override
 			protected void onPostExecute(Object result) {
-				if(error){
-					MUtil.showNetworkError(LeaderBoardActivity.this);
-					error = false;
-				}
+				
 				
 				ListView listView = setAll();
     			OnItemClickListener onClickListener = new OnItemClickListener() {
@@ -99,7 +92,7 @@ public class LeaderBoardActivity extends RBaseActivity {
 		Button button = (Button) findViewById(R.id.button1);
 		button.setText("All");
 		ListView listView = (ListView) findViewById(R.id.listView1);
-		listView.setAdapter(new ArrayAdapter<RURep>(LeaderBoardActivity.this,  android.R.layout.simple_list_item_1, leaderBoardRep.repL));
+		listView.setAdapter(new ArrayAdapter<RURep>(TopLeaderBoardsActivity.this,  android.R.layout.simple_list_item_1, leaderBoardRep.repL));
 		return listView;
 	}
 	
@@ -108,17 +101,12 @@ public class LeaderBoardActivity extends RBaseActivity {
 		if("All".equals(b.getText())){
 			b.setText("Daily");
 			ListView listView = (ListView) findViewById(R.id.listView1);
-			listView.setAdapter(new ArrayAdapter<RURep>(LeaderBoardActivity.this,  android.R.layout.simple_list_item_1, dailyLeaderBoardRep.repL));
+			listView.setAdapter(new ArrayAdapter<RURep>(TopLeaderBoardsActivity.this,  android.R.layout.simple_list_item_1, dailyLeaderBoardRep.repL));
 			
 		}
 		else if("Daily".equals(b.getText())){
 			setAll();
 		}
 		b.invalidate();
-	}
-	
-	@Override
-	protected String getTutorialText() {
-		return "The leaderboard shows the people best at buying and selling.";
 	}
 }
